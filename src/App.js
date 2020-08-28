@@ -16,6 +16,13 @@ class App extends React.Component {
     )
   }
 
+  onCreateCharacter() {
+    debugger;
+    this.setState({
+      character: true
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -24,11 +31,7 @@ class App extends React.Component {
         </header>
         <section>
           {
-            this.state.showCharacterCreationForm
-            ? <CreateCharacter />
-            : <form onSubmit={() => this.onSubmit()}>
-                <button>New Character</button>
-              </form>
+            renderComponents(this)
           }
         </section>
       </div>
@@ -39,7 +42,7 @@ class App extends React.Component {
 class CreateCharacter extends React.Component {
   render() {
     return (
-      <form>
+      <form onSubmit={() => this.props.onCreateCharacter()}>
         <label> Name:
           <input type='text'></input>
         </label>
@@ -65,6 +68,20 @@ function ProfessionRadio(props) {
 
 function getProfessions() {
   return ['warrior', 'rogue', 'priest', 'troubador', 'wayfarer', 'mage']
+}
+
+function renderComponents(self) {
+  if(self.state.character) {
+    return "Hello Character"
+  }
+  if(self.state.showCharacterCreationForm === false) {
+    return <form onSubmit={() => self.onSubmit()}>
+            <button>New Character</button>
+          </form>
+  }
+  if(self.state.showCharacterCreationForm === true) {
+    return <CreateCharacter onCreateCharacter={self.onCreateCharacter}/>
+  }
 }
 
 export default App;
