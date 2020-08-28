@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+// import { getProfessions } from './Professions'
 
 class App extends React.Component {
   constructor(props) {
@@ -7,7 +8,6 @@ class App extends React.Component {
     this.state = {
       showCharacterCreationForm: false,
     }
-    // this.onSubmit = this.onSubmit.bind(this)
   }
 
   onSubmit() {
@@ -27,7 +27,7 @@ class App extends React.Component {
             this.state.showCharacterCreationForm
             ? <CreateCharacter />
             : <form onSubmit={() => this.onSubmit()}>
-                <button>Create</button>
+                <button>New Character</button>
               </form>
           }
         </section>
@@ -39,9 +39,32 @@ class App extends React.Component {
 class CreateCharacter extends React.Component {
   render() {
     return (
-      <div>Hello I'm a character creation form!</div>
+      <form>
+        <label> Name:
+          <input type='text'></input>
+        </label>
+        <label> Profession:
+          {getProfessions().map((profession, index) => 
+            <ProfessionRadio profession={profession} key={index}/>
+          )}
+        </label>
+        <button>Create Character</button>
+      </form>
     )
   }
+}
+
+function ProfessionRadio(props) {
+  return (
+    <div className='profession-radio'>
+      <input type="radio" value={props.profession} name='profession'/>
+      <label>{props.profession}</label>
+    </div>
+  )
+}
+
+function getProfessions() {
+  return ['warrior', 'rogue', 'priest', 'troubador', 'wayfarer', 'mage']
 }
 
 export default App;
